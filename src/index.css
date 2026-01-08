@@ -12,10 +12,11 @@
     --color-zinc-300: #d4d4d8;
     --color-zinc-200: #e4e4e7;
     --color-zinc-100: #f4f4f5;
+    --color-zinc-50:  #fafafa;
   }
 
   html {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -24,8 +25,8 @@
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background-color: var(--color-zinc-950);
-    color: var(--color-zinc-100);
+    background-color: var(--color-zinc-50);
+    color: var(--color-zinc-900);
   }
 
   #root {

@@ -13,30 +13,30 @@ export interface ParsedBedInput {
 /**
  * Parse bed input string into bed label and task content
  * Examples:
- *   "5a01 k 3.0"             -> { bed: "05A-01", task: "k 3.0" }
- *   "12b05 wound dressing"   -> { bed: "12B-05", task: "wound dressing" }
- *   "1a1 check K+"           -> { bed: "01A-01", task: "check K+" }
+ *   "5A01A check K+"         -> { bed: "5A-01A", task: "check K+" }
+ *   "12B05C wound dressing"  -> { bed: "12B-05C", task: "wound dressing" }
+ *   "3A1B diet"              -> { bed: "3A-1B", task: "diet" }
  */
 export function parseBedInput(input: string): ParsedBedInput | null {
     const trimmed = input.trim();
     if (!trimmed) return null;
 
-    // Regex: captures bed number pattern at the start
-    // Format: 1-2 digits + letter + 1-2 digits, followed by space and task content
-    const regex = /^(\d{1,2})([a-zA-Z])(\d{1,2})\s+(.+)$/;
+    // Regex: Ward (Digits+Letter) + Bed (Digits+Letter) + Space + Task
+    // Case insensitive for input convenience, though we normalize to uppercase
+    const regex = /^(\d+[a-zA-Z])(\d+[a-zA-Z])\s+(.+)$/;
     const match = trimmed.match(regex);
 
     if (!match) return null;
 
-    const [, ward, section, bed, task] = match;
+    const [, ward, bed, task] = match;
 
-    // Normalize to format: 00A-00
-    const normalizedWard = ward.padStart(2, '0');
-    const normalizedSection = section.toUpperCase();
-    const normalizedBed = bed.padStart(2, '0');
+    // Normalize
+    const normalizedWard = ward.toUpperCase();
+    const normalizedBed = bed.toUpperCase();
 
+    // Reconstruct label: "5A-01A"
     return {
-        bed: `${normalizedWard}${normalizedSection}-${normalizedBed}`,
+        bed: `${normalizedWard}-${normalizedBed}`,
         task: task.trim(),
     };
 }
@@ -44,6 +44,16 @@ export function parseBedInput(input: string): ParsedBedInput | null {
 /**
  * Generate a unique ID
  */
-export function generateId(): string {
-    return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
-}
+export const generateId = () => Math.random().toString(36).substring(2, 9);
+
+export const vibrate = (pattern: number | number[]) => {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate(pattern);
+    }
+};
+
+export const HAPTIC = {
+    TAP: 5,
+    SUCCESS: 15,
+    ERROR: [50, 50, 50],
+};

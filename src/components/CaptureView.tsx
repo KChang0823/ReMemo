@@ -149,7 +149,6 @@ export function CaptureView() {
             {/* Custom Input Pad */}
             <InputPad
                 visible={isPadVisible}
-                currentInput={input}
                 onWardClick={handleWardClick}
                 onNumberClick={handleNumberClick}
                 onDelete={handleDelete}

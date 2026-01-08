@@ -7,7 +7,6 @@ interface InputPadProps {
     onWardClick: (ward: string) => void;
     onNumberClick: (num: string) => void;
     onDelete: () => void;
-    currentInput: string;
 }
 
 const WARDS = ['3A', '3B', '5A', '5B', '6A', '6B', '7A', '7B', '7C', '8A', 'ICU'];
@@ -18,7 +17,7 @@ const KEYS = [
     'D', '0', 'Del'
 ];
 
-export function InputPad({ visible, onWardClick, onNumberClick, onDelete, currentInput }: InputPadProps) {
+export function InputPad({ visible, onWardClick, onNumberClick, onDelete }: InputPadProps) {
     const handleWardClick = (ward: string) => {
         vibrate(HAPTIC.TAP);
         onWardClick(ward);

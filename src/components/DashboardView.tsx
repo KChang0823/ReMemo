@@ -4,7 +4,7 @@ import { TaskItem } from './TaskItem';
 import { cn, vibrate, HAPTIC } from '../utils';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { useLongPress } from 'use-long-press';
-import { Trash2, ChevronDown, ChevronRight, MoreVertical } from 'lucide-react';
+import { Trash2, ChevronDown, ChevronRight } from 'lucide-react';
 import type { Bed } from '../types';
 
 export function DashboardView() {
@@ -28,23 +28,13 @@ export function DashboardView() {
         vibrate(HAPTIC.TAP);
     };
 
-    const bindLongPress = useLongPress((event, { context }) => {
+    const bindLongPress = useLongPress((_event, { context }) => {
         const bedId = context as string;
         setEditingBedId(bedId);
         vibrate(HAPTIC.TAP);
     }, { threshold: 600 });
 
-    const handleClearTasks = (bedId: string, ignoredEvent: React.MouseEvent) => {
-        ignoredEvent.stopPropagation();
-        // Just clear completed tasks or delete bed? 
-        // User said "Delete / Edit context menu". 
-        // Let's implement Delete Bed functionality (or just clear tasks). 
-        // Assuming "Delete Bed" isn't in store yet, maybe just "Clear Completed"?
-        // Store has `clearCompleted`.
-        // Let's assume user wants to remove the bed entirely if empty?
-        // Current store doesn't have `removeBed`.
-        // I will stick to "Clear Completed" for now as a safe action.
-    };
+
 
     return (
         <div className="flex flex-col h-full bg-black/20">

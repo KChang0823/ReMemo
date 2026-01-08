@@ -1,53 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 @import "tailwindcss";
 
+@theme {
+  /* Medical Dark Theme Palette */
+  --color-primary: #3b82f6;
+  /* Bright Blue */
+  --color-primary-dark: #2563eb;
+
+  --color-background-dark: #0B1015;
+  /* Deep Navy/Black */
+  --color-surface-dark: #151C26;
+  /* Slightly lighter card bg */
+  --color-surface-highlight: #1E2837;
+  /* Hover state */
+
+  --color-text-primary: #F1F5F9;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+
+  --color-urgent: #EF4444;
+  /* Red */
+  --color-warning: #F59E0B;
+  /* Amber */
+  --color-success: #10B981;
+  /* Emerald */
+  --color-info: #06B6D4;
+  /* Cyan */
+
+  --font-display: "Inter", "Noto Sans TC", sans-serif;
+
+  --animate-scale-in: scale-in 0.2s ease-out forwards;
+}
+
 @layer base {
-  :root {
-    --color-zinc-950: #09090b;
-    --color-zinc-900: #18181b;
-    --color-zinc-800: #27272a;
-    --color-zinc-700: #3f3f46;
-    --color-zinc-600: #52525b;
-    --color-zinc-500: #71717a;
-    --color-zinc-400: #a1a1aa;
-    --color-zinc-300: #d4d4d8;
-    --color-zinc-200: #e4e4e7;
-    --color-zinc-100: #f4f4f5;
-    --color-zinc-50:  #fafafa;
-  }
-
-  html {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
   body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background-color: var(--color-zinc-50);
-    color: var(--color-zinc-900);
+    @apply bg-[#0B1015] text-slate-100 font-display antialiased min-h-screen selection:bg-primary/30 selection:text-white;
   }
 
-  #root {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
 }
 
-/* Custom animations */
-@keyframes slide-up {
+@keyframes scale-in {
   from {
-    transform: translateY(100%);
     opacity: 0;
+    transform: scale(0.95);
   }
+
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
-.animate-slide-up {
-  animation: slide-up 0.3s ease-out;
+/* Utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.pb-safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pt-safe-top {
+  padding-top: env(safe-area-inset-top);
 }

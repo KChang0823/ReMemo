@@ -21,23 +21,38 @@ export function parseBedInput(input: string): ParsedBedInput | null {
     const trimmed = input.trim();
     if (!trimmed) return null;
 
-    // Regex: Ward (Digits+Letter) + Bed (Digits+Letter) + Space + Task
-    // Case insensitive for input convenience, though we normalize to uppercase
-    const regex = /^(\d+[a-zA-Z])(\d+[a-zA-Z])\s+(.+)$/;
+    // Specific Regex from User:
+    // Ward: Digit + [A-D]  (e.g., 3A)
+    // Bed:  Double Digit + [A-D] (e.g., 04C)
+    // Example: 3A04C
+
+    // We look for this pattern ANYWHERE in the string to extract it?
+    // User said: "In the future when organizing notes, this will be used".
+    // "Scan content to see if it contains this format, if so extract metadata".
+
+    // Let's make a regex that finds this specific token.
+    // \b(\d+[A-D])(\d{2}[A-D])\b
+    // But user example "3A04C" is concatenated.
+    // Ward: 3A, Bed: 04C.
+
+    const regex = /\b(\d+[A-Da-d])(\d{2}[A-Da-d])\b/;
     const match = trimmed.match(regex);
 
     if (!match) return null;
 
-    const [, ward, bed, task] = match;
+    const [fullMatch, ward, bedNum] = match;
 
-    // Normalize
-    const normalizedWard = ward.toUpperCase();
-    const normalizedBed = bed.toUpperCase();
+    // Remaining task content is everything else?
+    // Or just used for metadata extraction?
+    // For now, let's keep the struct but just extract the bed info.
 
-    // Reconstruct label: "5A-01A"
     return {
-        bed: `${normalizedWard}-${normalizedBed}`,
-        task: task.trim(),
+        bed: `${ward.toUpperCase()}-${bedNum.toUpperCase()}`,
+        task: trimmed.replace(fullMatch, '').trim() || trimmed // If only bed ID, task is empty? Or keep original text?
+        // Let's assume we remove the ID from the text if found, to clean it up?
+        // Or keep it? User didn't specify. 
+        // Plan says "extract as metadata".
+        // Let's return the parsed bed components.
     };
 }
 
